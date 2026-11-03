@@ -1,0 +1,25 @@
+# core
+pydantic>=2
+pyyaml
+python-dotenv
+tenacity
+tqdm
+# data + stats
+pandas
+numpy
+scipy
+scikit-learn
+statsmodels
+matplotlib
+datasets
+# retrieval
+sentence-transformers
+faiss-cpu
+rank-bm25
+# experiment tracking
+mlflow
+# quality
+pytest
+ruff
+# LLM provider
+anthropic
