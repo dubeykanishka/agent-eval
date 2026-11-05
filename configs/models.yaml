@@ -1,0 +1,12 @@
+worker:
+  model_id: claude-haiku-5-5        # the cheap tier you used in the smoke test
+  usd_per_million_in: 0.10          # up to 100,000 tokens
+  usd_per_million_out: 0.50         # up to 100,000 tokens
+  checked_on: "2026-11-05"
+
+judge:
+  model_id: claude-sonnet-5-5       # stronger tier for grading
+  usd_per_million_in: 2.0           # per million tokens
+  usd_per_million_out: 10.0         # per million tokens
+  usd_per_million_cache: 0.10       # per million tokens
+  checked_on: "2026-11-05"

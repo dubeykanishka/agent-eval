@@ -1,0 +1,29 @@
+experiment_name: pilot_v1
+seed: 1234
+worker_model: worker        # alias, defined in configs/models.yaml
+judge_model: judge          # alias, defined in configs/models.yaml
+
+dataset:
+  name: multihop_pools
+  split: dev
+  n_questions: 20
+  pool_sizes: [50]
+
+systems: [closed_book, rag, single_agent, single_agent_compressed, multi_agent]
+budgets_tokens: [10000, 25000]
+max_steps: 15
+reserve_tokens: 2000        # keep this much budget for a final answer
+concurrency: 4
+spend_limit_usd: 5          # kill switch for the pilot
+
+rag:
+  chunk_tokens: 300
+  overlap_tokens: 50
+  top_k: 8
+
+multi_agent:
+  n_workers: 3
+  budget_split:
+    orchestrator: 0.15
+    workers: 0.70
+    synthesis: 0.15
