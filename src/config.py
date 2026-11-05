@@ -67,15 +67,21 @@ class ModelSpec(BaseModel):
     model_id: str
     usd_per_million_in: float = Field(ge=0)
     usd_per_million_out: float = Field(ge=0)
+    long_context_threshold: int | None = None
+    usd_per_million_in_long: float | None = None
+    usd_per_million_out_long: float | None = None
     checked_on: str
 
-    @property
-    def usd_per_token_in(self) -> float:
-        return self.usd_per_million_in / 1_000_000
-
-    @property
-    def usd_per_token_out(self) -> float:
-        return self.usd_per_million_out / 1_000_000
+    def cost_usd(self, tokens_in: int, tokens_out: int) -> float:
+        """Cost of ONE API call. The whole call moves to the long-context
+        rate if its prompt exceeds the threshold."""
+        long_call = (
+            self.long_context_threshold is not None
+            and tokens_in > self.long_context_threshold
+        )
+        rate_in = self.usd_per_million_in_long if long_call else self.usd_per_million_in
+        rate_out = self.usd_per_million_out_long if long_call else self.usd_per_million_out
+        return (tokens_in * rate_in + tokens_out * rate_out) / 1_000_000
 
 
 def load_config(path: str | Path) -> ExperimentConfig:

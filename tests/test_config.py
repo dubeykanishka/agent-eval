@@ -29,3 +29,10 @@ def test_unknown_system_rejected():
     raw["systems"] = ["not_a_system"]
     with pytest.raises(ValidationError):
         ExperimentConfig(**raw)
+
+def test_long_context_pricing():
+    m = load_models("configs/models.yaml")["worker"]
+    short = m.cost_usd(50_000, 1_000)      # 0.005 + 0.0005
+    long_ = m.cost_usd(150_000, 1_000)     # 0.075 + 0.0025
+    assert abs(short - 0.0055) < 1e-9
+    assert abs(long_ - 0.0775) < 1e-9
